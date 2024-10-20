@@ -5,7 +5,8 @@ export const dataSourceOptions: DataSourceOptions = {
   database: 'database.sqlite3',
   entities: [__dirname + '/../**/*.entity.{js,ts}'],
   migrationsTableName: 'migrations',
-  migrations: ['dist/migrations/*.js'],
+  migrations: ['dist/modules/database/migrations/*.js'],
   synchronize: true,
 };
+
 export default new DataSource(dataSourceOptions);

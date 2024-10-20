@@ -7,6 +7,9 @@ import { ProposalRepository } from '../proposals/infra/repositories/proposal.rep
 import { UserRepository } from '../users/infrastructure/repositories/user.repository';
 import { CustomerRepository } from '../customers/infrastructure/repositories/customer.repository';
 import { dataSourceOptions } from './configs/ormconfig';
+import { CustomerRepositoryInterface } from '../customers/domain/repositories/customer.repository.interface';
+import { ProposalRepositoryInterface } from '../proposals/domain/repositories/proposal.repository.interface';
+import { UserRepositoryInterface } from '../users/domain/repositories/user.repository.interface';
 
 @Module({
   imports: [
@@ -22,34 +25,22 @@ import { dataSourceOptions } from './configs/ormconfig';
     UserRepository,
     CustomerRepository,
     {
-      provide: 'ProposalRepositoryInterface',
+      provide: ProposalRepositoryInterface,
       useClass: ProposalRepository,
     },
     {
-      provide: 'UserRepositoryInterface',
+      provide: UserRepositoryInterface,
       useClass: UserRepository,
     },
     {
-      provide: 'CustomerRepositoryInterface',
+      provide: CustomerRepositoryInterface,
       useClass: CustomerRepository,
     },
   ],
   exports: [
-    ProposalRepository,
-    UserRepository,
-    CustomerRepository,
-    {
-      provide: 'ProposalRepositoryInterface',
-      useClass: ProposalRepository,
-    },
-    {
-      provide: 'UserRepositoryInterface',
-      useClass: UserRepository,
-    },
-    {
-      provide: 'CustomerRepositoryInterface',
-      useClass: CustomerRepository,
-    },
+    ProposalRepositoryInterface,
+    UserRepositoryInterface,
+    CustomerRepositoryInterface,
     TypeOrmModule,
   ],
 })

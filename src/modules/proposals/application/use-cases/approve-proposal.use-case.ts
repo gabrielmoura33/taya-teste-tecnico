@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Proposal } from '../../domain/entities/proposal.entity';
 import { ProposalStatus } from '../../domain/entities/proposal-status.enum';
 import { ProposalRepositoryInterface } from '../../domain/repositories/proposal.repository.interface';
@@ -12,9 +12,8 @@ import { UserNotFoundException } from '../../../users/domain/errors/user.excepti
 @Injectable()
 export class ApproveProposalUseCase {
   constructor(
-    @Inject('ProposalRepositoryInterface')
     private readonly proposalRepository: ProposalRepositoryInterface,
-    @Inject('UserRepositoryInterface')
+
     private readonly userRepository: UserRepositoryInterface,
   ) {}
 

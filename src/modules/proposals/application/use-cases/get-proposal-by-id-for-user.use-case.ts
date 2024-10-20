@@ -1,4 +1,4 @@
-import { Injectable, Inject } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { Proposal } from '../../domain/entities/proposal.entity';
 import { ProposalRepositoryInterface } from '../../domain/repositories/proposal.repository.interface';
 import {
@@ -9,7 +9,6 @@ import {
 @Injectable()
 export class GetProposalByIdForUserUseCase {
   constructor(
-    @Inject('ProposalRepositoryInterface')
     private readonly proposalRepository: ProposalRepositoryInterface,
   ) {}
 
