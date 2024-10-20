@@ -1,26 +1,30 @@
-import { Injectable, NestMiddleware } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
+import {
+  Injectable,
+  NestMiddleware,
+  UnauthorizedException,
+} from '@nestjs/common';
+
 import { Request, Response, NextFunction } from 'express';
-import { UserOrmEntity } from '../../modules/users/infrastructure/entities/user.orm-entity';
-import { Repository } from 'typeorm';
+
+import { UserRepositoryInterface } from 'src/modules/users/domain/repositories/user.repository.interface';
 
 @Injectable()
 export class UserMiddleware implements NestMiddleware {
-  constructor(
-    @InjectRepository(UserOrmEntity)
-    private userRepository: Repository<UserOrmEntity>,
-  ) {}
+  constructor(private userRepository: UserRepositoryInterface) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
     const userId = req.headers['user_id'];
-    if (userId) {
-      const user = await this.userRepository.findOne({
-        where: { id: Number(userId) },
-      });
-      if (user) {
-        (req as any).user = user;
-      }
+
+    if (!userId) {
+      throw new UnauthorizedException('Usuário não autenticado');
     }
+
+    const user = await this.userRepository.findById(parseInt(userId as string));
+
+    if (user) {
+      (req as any).user = user;
+    }
+
     next();
   }
 }

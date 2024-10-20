@@ -13,12 +13,12 @@ import { UserRepositoryInterface } from '../users/domain/repositories/user.repos
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot(dataSourceOptions),
     TypeOrmModule.forFeature([
       ProposalOrmEntity,
       UserOrmEntity,
       CustomerOrmEntity,
     ]),
+    TypeOrmModule.forRoot(dataSourceOptions),
   ],
   providers: [
     ProposalRepository,

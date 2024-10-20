@@ -37,7 +37,7 @@ export class ProposalController {
 
   @Get()
   async getPendingProposals(@Req() req: Request): Promise<Proposal[]> {
-    const userId = (req as any).user.id;
+    const userId = 1;
     return this.getPendingProposalsForUserUseCase.execute(userId);
   }
 
@@ -53,7 +53,7 @@ export class ProposalController {
     @Param() params: ApproveProposalDto,
     @Req() req: Request,
   ): Promise<Proposal> {
-    const executorUserId = (req as any).user.id;
+    const executorUserId = 1;
     return this.approveProposalUseCase.execute(
       params.proposal_id,
       executorUserId,

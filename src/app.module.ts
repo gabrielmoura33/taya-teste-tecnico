@@ -27,6 +27,6 @@ import * as path from 'path';
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(UserMiddleware).forRoutes('*');
+    // consumer.apply(UserMiddleware).forRoutes('*');
   }
 }
