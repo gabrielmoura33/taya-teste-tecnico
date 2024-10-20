@@ -1,10 +1,20 @@
-import { Controller, Get, Post, Param, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Param,
+  Req,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { Request } from 'express';
 import { Proposal } from '../../domain/entities/proposal.entity';
 import { GetProposalByIdForUserUseCase } from '../../application/use-cases/get-proposal-by-id-for-user.use-case';
 import { GetPendingProposalsForUserUseCase } from '../../application/use-cases/get-pending-proposals-for-user.use-case';
 import { GetRefusedProposalsForUserUseCase } from '../../application/use-cases/get-refused-proposals-for-user.use-case';
 import { ApproveProposalUseCase } from '../../application/use-cases/approve-proposal.use-case';
+import { GetProposalByIdDto } from '../dtos/get-proposal-by-id.dto';
+import { ApproveProposalDto } from '../dtos/approve-proposal.dto';
 
 @Controller('proposals')
 export class ProposalController {
@@ -16,12 +26,13 @@ export class ProposalController {
   ) {}
 
   @Get(':id')
+  @UsePipes(new ValidationPipe({ transform: true }))
   async getProposalById(
-    @Param('id') id: number,
+    @Param() params: GetProposalByIdDto,
     @Req() req: Request,
   ): Promise<Proposal> {
     const userId = (req as any).user.id;
-    return this.getProposalByIdForUserUseCase.execute(id, userId);
+    return this.getProposalByIdForUserUseCase.execute(params.id, userId);
   }
 
   @Get()
@@ -37,11 +48,15 @@ export class ProposalController {
   }
 
   @Post(':proposal_id/approve')
+  @UsePipes(new ValidationPipe({ transform: true }))
   async approveProposal(
-    @Param('proposal_id') proposalId: number,
+    @Param() params: ApproveProposalDto,
     @Req() req: Request,
   ): Promise<Proposal> {
     const executorUserId = (req as any).user.id;
-    return this.approveProposalUseCase.execute(proposalId, executorUserId);
+    return this.approveProposalUseCase.execute(
+      params.proposal_id,
+      executorUserId,
+    );
   }
 }
