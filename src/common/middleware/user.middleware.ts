@@ -20,11 +20,11 @@ export class UserMiddleware implements NestMiddleware {
     }
 
     const user = await this.userRepository.findById(parseInt(userId as string));
-
-    if (user) {
-      (req as any).user = user;
+    if (!user) {
+      throw new UnauthorizedException('Usuário não autenticado');
     }
 
+    (req as any).user = user;
     next();
   }
 }
