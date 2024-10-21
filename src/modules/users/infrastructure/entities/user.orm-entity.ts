@@ -1,4 +1,4 @@
-import { ProposalOrmEntity } from 'src/modules/proposals/infra/entities/proposal.orm-entity';
+import { ProposalOrmEntity } from '../../../proposals/infra/entities/proposal.orm-entity';
 import {
   Entity,
   PrimaryGeneratedColumn,

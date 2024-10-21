@@ -25,7 +25,7 @@ describe('GetProfitByStatusGroupedByUserUseCase', () => {
     ];
     proposalRepository.getProfitByStatusGroupedByUser.mockResolvedValue(data);
 
-    const result = await useCase.execute();
+    const result = await useCase.execute(1);
 
     expect(result).toBe(data);
     expect(

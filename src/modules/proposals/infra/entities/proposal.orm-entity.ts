@@ -8,7 +8,7 @@ import {
   ManyToOne,
 } from 'typeorm';
 import { ProposalStatus } from '../../domain/entities/proposal-status.enum';
-import { UserOrmEntity } from 'src/modules/users/infrastructure/entities/user.orm-entity';
+import { UserOrmEntity } from '../../../users/infrastructure/entities/user.orm-entity';
 
 @Entity('proposals')
 export class ProposalOrmEntity {

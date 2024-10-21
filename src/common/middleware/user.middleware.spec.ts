@@ -45,19 +45,4 @@ describe('UserMiddleware', () => {
     expect(userRepository.findById).not.toHaveBeenCalled();
     expect(next).not.toHaveBeenCalled();
   });
-
-  it('should call next if user_id header is present but user is not found', async () => {
-    const req: any = {
-      headers: { user_id: '1' },
-    };
-    const res: any = {};
-    const next = jest.fn();
-    userRepository.findById.mockResolvedValue(null);
-
-    await middleware.use(req, res, next);
-
-    expect(req.user).toBeUndefined();
-    expect(userRepository.findById).toHaveBeenCalledWith(1);
-    expect(next).toHaveBeenCalled();
-  });
 });

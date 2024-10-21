@@ -29,7 +29,9 @@ describe('AdminController', () => {
     ];
     getProfitByStatusGroupedByUserUseCase.execute.mockResolvedValue(data);
 
-    const result = await controller.getProfitByStatus();
+    const result = await controller.getProfitByStatus({
+      user: { id: 1 },
+    } as any);
 
     expect(result).toBe(data);
     expect(getProfitByStatusGroupedByUserUseCase.execute).toHaveBeenCalled();
