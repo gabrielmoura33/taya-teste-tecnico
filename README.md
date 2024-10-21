@@ -1,9 +1,8 @@
 # 🤖 Taya - Teste Técnico
 
-![NestJS Logo](https://nestjs.com/img/logo-small.svg)
 
-[![Node.js CI](https://github.com/username/repository/actions/workflows/node.js.yml/badge.svg)](https://github.com/username/repository/actions/workflows/node.js.yml)
-[![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/username/repository/blob/main/LICENSE)
+[![Node.js CI](https://github.com/gabrielmoura33/taya-teste-tecnico/actions/workflows/node.js.yml/badge.svg)](https://github.com/gabrielmoura33/taya-teste-tecnico/actions/workflows/node.js.yml)
+[![License MIT](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/gabrielmoura33/taya-teste-tecnico/blob/main/LICENSE)
 [![Made with NestJS](https://img.shields.io/badge/made%20with-NestJS-red)](https://nestjs.com/)
 
 ## Visão Geral
