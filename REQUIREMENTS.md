@@ -60,7 +60,7 @@ Abaixo está uma lista das APIs necessárias para o aplicativo.
 
 1. - [x] - **_GET_** `/admin/profit-by-status` - Retorna a soma do profit de todas as propostas por usuario agrupada por status.
 
-1. - [] - **_GET_** `/admin/best-users?start=<date>&end=<date>` - Retorna os users que possuem o maior profit de propostas em sucesso vinculado.
+1. - [x] - **_GET_** `/admin/best-users?start=<date>&end=<date>` - Retorna os users que possuem o maior profit de propostas em sucesso vinculado.
 
 ```
  [
