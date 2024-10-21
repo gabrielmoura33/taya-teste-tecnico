@@ -6,7 +6,7 @@ import {
 
 import { Request, Response, NextFunction } from 'express';
 
-import { UserRepositoryInterface } from 'src/modules/users/domain/repositories/user.repository.interface';
+import { UserRepositoryInterface } from '../../modules/users/domain/repositories/user.repository.interface';
 
 @Injectable()
 export class UserMiddleware implements NestMiddleware {
