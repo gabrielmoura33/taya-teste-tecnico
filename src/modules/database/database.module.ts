@@ -26,6 +26,7 @@ import { UserRepositoryInterface } from '../users/domain/repositories/user.repos
     CustomerRepository,
     {
       provide: ProposalRepositoryInterface,
+
       useClass: ProposalRepository,
     },
     {

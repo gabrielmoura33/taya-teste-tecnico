@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Proposal } from '../../domain/entities/proposal.entity';
 import { ProposalRepositoryInterface } from '../../domain/repositories/proposal.repository.interface';
 
 @Injectable()
@@ -8,7 +7,11 @@ export class GetRefusedProposalsForUserUseCase {
     private readonly proposalRepository: ProposalRepositoryInterface,
   ) {}
 
-  async execute(userId: number): Promise<Proposal[]> {
-    return this.proposalRepository.findRefusedByUserId(userId);
+  async execute(
+    userId: number,
+    skip: number,
+    take: number,
+  ): Promise<{ items: any[]; total: number }> {
+    return this.proposalRepository.findRefusedByUserId(userId, skip, take);
   }
 }

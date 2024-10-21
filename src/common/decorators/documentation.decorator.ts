@@ -1,4 +1,10 @@
-import { ApiOperation, ApiProperty, ApiResponse } from '@nestjs/swagger';
+import {
+  ApiOperation,
+  ApiProperty,
+  ApiResponse,
+  ApiHeader,
+  ApiInternalServerErrorResponse,
+} from '@nestjs/swagger';
 import { applyDecorators } from '@nestjs/common';
 
 export function Documentation(data: Definition) {
@@ -15,33 +21,52 @@ export function Documentation(data: Definition) {
     );
   });
 
+  data.errors?.forEach((err) => {
+    responses.push(
+      ApiResponse({
+        status: err.status,
+        description: err.description,
+        type: err.type,
+      }),
+    );
+  });
+
   return applyDecorators(
     ApiOperation({ summary: data.title, description: data.description }),
+    ApiHeader({
+      name: 'user_id',
+      required: true,
+      description: 'ID of the authenticated user',
+    }),
     ...responses,
-    ApiResponse({
-      status: 500,
+    ApiInternalServerErrorResponse({
       description: 'Unexpected error from the service',
       type: InternalServerErrorApiResponse,
     }),
   );
 }
 
-type Definition = {
+interface Definition {
   title: string;
   description?: string;
   responses?: {
     status?: number;
     description?: string;
-    type: any;
+    type?: any;
   }[];
-};
+  errors?: {
+    status: number;
+    description: string;
+    type?: any;
+  }[];
+}
 
 class InternalServerErrorApiResponse {
   @ApiProperty({ default: 500 })
-  status_code: number;
+  statusCode: number;
 
-  @ApiProperty({ default: 'Error' })
-  type: string;
+  @ApiProperty({ default: 'Internal Server Error' })
+  error: string;
 
   @ApiProperty({ default: 'Internal server error' })
   message: string;

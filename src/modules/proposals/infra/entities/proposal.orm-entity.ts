@@ -16,8 +16,7 @@ export class ProposalOrmEntity {
   profit: number;
 
   @Column({
-    type: 'enum',
-    enum: ProposalStatus,
+    type: 'text',
     default: ProposalStatus.PENDING,
   })
   status: ProposalStatus;

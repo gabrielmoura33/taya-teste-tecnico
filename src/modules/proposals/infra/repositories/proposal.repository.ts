@@ -18,25 +18,46 @@ export class ProposalRepository implements ProposalRepositoryInterface {
     return proposalEntity ? this.toDomain(proposalEntity) : null;
   }
 
-  async findByUserId(userId: number): Promise<Proposal[]> {
-    const proposalEntities = await this.ormRepository.find({
+  async findByUserId(
+    userId: number,
+    skip: number,
+    take: number,
+  ): Promise<{ items: Proposal[]; total: number }> {
+    const [entities, total] = await this.ormRepository.findAndCount({
       where: { userCreatorId: userId },
+      skip,
+      take,
     });
-    return proposalEntities.map(this.toDomain);
+    const items = entities.map(this.toDomain);
+    return { items, total };
   }
 
-  async findPendingByUserId(userId: number): Promise<Proposal[]> {
-    const proposalEntities = await this.ormRepository.find({
+  async findPendingByUserId(
+    userId: number,
+    skip: number,
+    take: number,
+  ): Promise<{ items: Proposal[]; total: number }> {
+    const [entities, total] = await this.ormRepository.findAndCount({
       where: { userCreatorId: userId, status: ProposalStatus.PENDING },
+      skip,
+      take,
     });
-    return proposalEntities.map(this.toDomain);
+    const items = entities.map(this.toDomain);
+    return { items, total };
   }
 
-  async findRefusedByUserId(userId: number): Promise<Proposal[]> {
-    const proposalEntities = await this.ormRepository.find({
+  async findRefusedByUserId(
+    userId: number,
+    skip: number,
+    take: number,
+  ): Promise<{ items: Proposal[]; total: number }> {
+    const [entities, total] = await this.ormRepository.findAndCount({
       where: { userCreatorId: userId, status: ProposalStatus.REFUSED },
+      skip,
+      take,
     });
-    return proposalEntities.map(this.toDomain);
+    const items = entities.map(this.toDomain);
+    return { items, total };
   }
 
   async save(proposal: Proposal): Promise<Proposal> {
@@ -65,7 +86,9 @@ export class ProposalRepository implements ProposalRepositoryInterface {
       .addSelect('user.name', 'fullName')
       .addSelect('SUM(proposal.profit)', 'totalProposal')
       .innerJoin('users', 'user', 'user.id = proposal.userCreatorId')
-      .where('proposal.status = :status', { status: ProposalStatus.SUCCESSFUL })
+      .where('proposal.status = :status', {
+        status: ProposalStatus.SUCCESSFUL,
+      })
       .andWhere('proposal.createdAt BETWEEN :start AND :end', {
         start: startDate,
         end: endDate,
