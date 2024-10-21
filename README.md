@@ -202,7 +202,6 @@ Os casos de uso encapsulam a lógica de negócio específica da aplicação.
 @Injectable()
 export class GetProposalByIdForUserUseCase {
   constructor(
-    @Inject('ProposalRepositoryInterface')
     private readonly proposalRepository: ProposalRepositoryInterface,
   ) {}
 
@@ -382,8 +381,8 @@ services:
 #### 1. Clonar o Repositório
 
 ```bash
-git clone https://github.com/seu-usuario/seu-repositorio.git
-cd seu-repositorio
+git clone https://github.com/gabrielmoura33/taya-teste-tecnico.git
+cd taya-teste-tecnico
 ```
 
 #### 2. Instalar Dependências
