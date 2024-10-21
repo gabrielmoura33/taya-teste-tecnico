@@ -18,6 +18,6 @@ export abstract class ProposalRepositoryInterface {
     take: number,
   ): Promise<{ items: Proposal[]; total: number }>;
   abstract save(proposal: Proposal): Promise<Proposal>;
-  abstract getProfitByStatusGroupedByUser(): Promise<any>;
+  abstract getProfitByStatusGroupedByUser(userId: number): Promise<any>;
   abstract getBestUsersByProfit(startDate: Date, endDate: Date): Promise<any>;
 }

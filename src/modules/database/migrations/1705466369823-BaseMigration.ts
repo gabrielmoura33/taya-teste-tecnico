@@ -312,7 +312,7 @@ export class BaseMigration1705466369823 implements MigrationInterface {
 
     for (const proposal of proposals) {
       await queryRunner.query(
-        `INSERT INTO proposals ("userCreatorId", "customerId", status, profit, "createdAt", "updatedAt") VALUES ('${proposal.userCreatorId}', '${proposal.customerId}', '${proposal.status}', ${proposal.profit}, '${proposal.createdAt}', '${proposal.updatedAt}')`,
+        `INSERT INTO proposals ("userCreatorId", "customerId", status, profit, "createdAt", "updatedAt") VALUES ('${proposal.userCreatorId}', '${proposal.customerId}', '${proposal.status}', ${proposal.profit}, '${proposal.createdAt.toISOString()}', '${proposal.updatedAt.toISOString()}')`,
       );
     }
   }

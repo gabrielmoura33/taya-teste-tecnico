@@ -22,6 +22,7 @@ import {
   ProposalNotPendingResponse,
 } from '../../domain/errors/proposal.exceptions';
 import { ApiTags } from '@nestjs/swagger';
+import { ApproveProposalDto } from '../dtos/approve-proposal.dto';
 
 @ApiTags('Proposals')
 @Controller('proposals')
@@ -149,12 +150,12 @@ export class ProposalController {
     ],
   })
   async approveProposal(
-    @Param() params: GetProposalByIdDto,
+    @Param() params: ApproveProposalDto,
     @Req() req: Request,
   ): Promise<ProposalResponseDto> {
     const executorUserId = (req as any).user.id;
     const proposal = await this.approveProposalUseCase.execute(
-      params.id,
+      params.proposal_id,
       executorUserId,
     );
     return new ProposalResponseDto(proposal);

@@ -7,7 +7,7 @@ export class GetProfitByStatusGroupedByUserUseCase {
     private readonly proposalRepository: ProposalRepositoryInterface,
   ) {}
 
-  async execute(): Promise<any> {
-    return this.proposalRepository.getProfitByStatusGroupedByUser();
+  async execute(userId: number): Promise<any> {
+    return this.proposalRepository.getProfitByStatusGroupedByUser(userId);
   }
 }

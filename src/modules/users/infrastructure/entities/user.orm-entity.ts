@@ -1,9 +1,11 @@
+import { ProposalOrmEntity } from 'src/modules/proposals/infra/entities/proposal.orm-entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity('users')
@@ -22,4 +24,7 @@ export class UserOrmEntity {
 
   @UpdateDateColumn({ type: 'datetime' })
   updatedAt: Date;
+
+  @OneToMany(() => ProposalOrmEntity, (proposal) => proposal.userCreator)
+  proposals: ProposalOrmEntity[];
 }

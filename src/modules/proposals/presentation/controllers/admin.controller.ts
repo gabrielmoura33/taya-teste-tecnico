@@ -2,6 +2,7 @@ import {
   Controller,
   Get,
   Query,
+  Req,
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
@@ -34,8 +35,9 @@ export class AdminController {
       },
     ],
   })
-  async getProfitByStatus() {
-    return this.getProfitByStatusGroupedByUserUseCase.execute();
+  async getProfitByStatus(@Req() req: Request) {
+    const userId = (req as any).user.id;
+    return this.getProfitByStatusGroupedByUserUseCase.execute(userId);
   }
 
   @Get('best-users')

@@ -104,7 +104,10 @@ describe('ProposalController', () => {
     approveProposalUseCase.execute.mockResolvedValue(proposal);
 
     const req = { user: { id: 1 } };
-    const result = await controller.approveProposal({ id: 1 }, req as any);
+    const result = await controller.approveProposal(
+      { proposal_id: 1 },
+      req as any,
+    );
 
     expect(result).toEqual(new ProposalResponseDto(proposal));
     expect(approveProposalUseCase.execute).toHaveBeenCalledWith(1, 1);

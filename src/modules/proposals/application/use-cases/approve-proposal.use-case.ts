@@ -4,6 +4,7 @@ import { ProposalStatus } from '../../domain/entities/proposal-status.enum';
 import { ProposalRepositoryInterface } from '../../domain/repositories/proposal.repository.interface';
 import { UserRepositoryInterface } from '../../../users/domain/repositories/user.repository.interface';
 import {
+  ProposalAccessDeniedException,
   ProposalNotFoundException,
   ProposalNotPendingException,
 } from '../../domain/errors/proposal.exceptions';
@@ -21,6 +22,9 @@ export class ApproveProposalUseCase {
     const proposal = await this.proposalRepository.findById(proposalId);
     if (!proposal) {
       throw new ProposalNotFoundException();
+    }
+    if (proposal.userCreatorId !== executorUserId) {
+      throw new ProposalAccessDeniedException('Access to proposal denied');
     }
     if (proposal.status !== ProposalStatus.PENDING) {
       throw new ProposalNotPendingException();

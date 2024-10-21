@@ -4,8 +4,11 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  JoinColumn,
+  ManyToOne,
 } from 'typeorm';
 import { ProposalStatus } from '../../domain/entities/proposal-status.enum';
+import { UserOrmEntity } from 'src/modules/users/infrastructure/entities/user.orm-entity';
 
 @Entity('proposals')
 export class ProposalOrmEntity {
@@ -27,9 +30,13 @@ export class ProposalOrmEntity {
   @Column()
   customerId: number;
 
-  @CreateDateColumn({ type: 'datetime' })
+  @CreateDateColumn()
   createdAt: Date;
 
-  @UpdateDateColumn({ type: 'datetime' })
+  @UpdateDateColumn()
   updatedAt: Date;
+
+  @ManyToOne(() => UserOrmEntity, (user) => user.proposals)
+  @JoinColumn({ name: 'userCreatorId' })
+  userCreator: UserOrmEntity;
 }

@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { ProposalOrmEntity } from '../entities/proposal.orm-entity';
-import { Repository } from 'typeorm';
+import { Between, Repository } from 'typeorm';
 import { ProposalRepositoryInterface } from '../../domain/repositories/proposal.repository.interface';
 import { Proposal } from '../../domain/entities/proposal.entity';
 import { ProposalStatus } from '../../domain/entities/proposal-status.enum';
@@ -66,12 +66,13 @@ export class ProposalRepository implements ProposalRepositoryInterface {
     return this.toDomain(savedEntity);
   }
 
-  async getProfitByStatusGroupedByUser(): Promise<any> {
+  async getProfitByStatusGroupedByUser(userId: number): Promise<any> {
     const result = await this.ormRepository
       .createQueryBuilder('proposal')
       .select('proposal.userCreatorId', 'userId')
       .addSelect('proposal.status', 'status')
       .addSelect('SUM(proposal.profit)', 'totalProfit')
+      .where('proposal.userCreatorId = :userId', { userId })
       .groupBy('proposal.userCreatorId')
       .addGroupBy('proposal.status')
       .getRawMany();
@@ -80,23 +81,29 @@ export class ProposalRepository implements ProposalRepositoryInterface {
   }
 
   async getBestUsersByProfit(startDate: Date, endDate: Date): Promise<any> {
-    const result = await this.ormRepository
-      .createQueryBuilder('proposal')
-      .select('proposal.userCreatorId', 'id')
-      .addSelect('user.name', 'fullName')
-      .addSelect('SUM(proposal.profit)', 'totalProposal')
-      .innerJoin('users', 'user', 'user.id = proposal.userCreatorId')
-      .where('proposal.status = :status', {
+    const proposals = await this.ormRepository.find({
+      where: {
         status: ProposalStatus.SUCCESSFUL,
-      })
-      .andWhere('proposal.createdAt BETWEEN :start AND :end', {
-        start: startDate,
-        end: endDate,
-      })
-      .groupBy('proposal.userCreatorId')
-      .addGroupBy('user.name')
-      .orderBy('totalProposal', 'DESC')
-      .getRawMany();
+        createdAt: Between(startDate, endDate),
+      },
+      relations: ['userCreator'],
+    });
+
+    const userProfits: any = proposals.reduce((acc, proposal) => {
+      const userId = proposal.userCreatorId;
+      const userName = proposal.userCreator?.name || 'Unknown';
+
+      if (!acc[userId]) {
+        acc[userId] = { id: userId, fullName: userName, totalProposal: 0 };
+      }
+
+      acc[userId].totalProposal += proposal.profit;
+      return acc;
+    }, {});
+
+    const result = Object.values(userProfits).sort(
+      (a: any, b: any) => b.totalProposal - a.totalProposal,
+    );
 
     return result;
   }
