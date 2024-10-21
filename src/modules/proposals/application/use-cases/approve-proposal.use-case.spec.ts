@@ -47,12 +47,12 @@ describe('ApproveProposalUseCase', () => {
     proposalRepository.save.mockResolvedValue({
       ...proposal,
       status: ProposalStatus.SUCCESSFUL,
-    });
+    } as Proposal);
     userRepository.findById.mockResolvedValue(user);
     userRepository.save.mockResolvedValue({
       ...user,
       balance: user.balance + proposal.profit,
-    });
+    } as User);
 
     const result = await useCase.execute(1, 1);
 

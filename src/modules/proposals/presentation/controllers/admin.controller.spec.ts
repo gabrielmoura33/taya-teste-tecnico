@@ -54,8 +54,6 @@ describe('AdminController', () => {
     expect(getBestUsersUseCase.execute).toHaveBeenCalledWith(
       query.start,
       query.end,
-      query.skip,
-      query.take,
     );
   });
 });
