@@ -337,7 +337,7 @@ RUN npm install
 
 COPY . .
 
-EXPOSE 3000
+EXPOSE 3005
 
 CMD ["npm", "run", "start:dev"]
 ```
@@ -352,7 +352,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - '3000:3000'
+      - '3005:3005'
     environment:
       NODE_ENV: development
       DATABASE_TYPE: sqlite
@@ -417,14 +417,14 @@ Para iniciar a aplicação em modo de desenvolvimento:
 npm run start:dev
 ```
 
-A aplicação estará disponível em `http://localhost:3000`.
+A aplicação estará disponível em `http://localhost:3005`.
 
 #### 6. Acessar a Documentação Swagger
 
 A documentação da API pode ser acessada em:
 
 ```
-http://localhost:3000/api-docs
+http://localhost:3005/api-docs
 ```
 
 ### Executando com Docker
@@ -443,8 +443,8 @@ docker-compose exec app npm run migration:run
 
 #### 3. Acessar a Aplicação e Documentação
 
-- Aplicação: `http://localhost:3000`
-- Documentação Swagger: `http://localhost:3000/api-docs`
+- Aplicação: `http://localhost:3005`
+- Documentação Swagger: `http://localhost:3005/api-docs`
 
 ---
 
