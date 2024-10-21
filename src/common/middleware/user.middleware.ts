@@ -3,9 +3,7 @@ import {
   NestMiddleware,
   UnauthorizedException,
 } from '@nestjs/common';
-
 import { Request, Response, NextFunction } from 'express';
-
 import { UserRepositoryInterface } from '../../modules/users/domain/repositories/user.repository.interface';
 
 @Injectable()
@@ -16,12 +14,12 @@ export class UserMiddleware implements NestMiddleware {
     const userId = req.headers['user_id'];
 
     if (!userId) {
-      throw new UnauthorizedException('Usuário não autenticado');
+      throw new UnauthorizedException('User not authenticated');
     }
-
     const user = await this.userRepository.findById(parseInt(userId as string));
+
     if (!user) {
-      throw new UnauthorizedException('Usuário não autenticado');
+      throw new UnauthorizedException('User not found');
     }
 
     (req as any).user = user;

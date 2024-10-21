@@ -18,7 +18,7 @@ export class GetProposalByIdForUserUseCase {
       throw new ProposalNotFoundException();
     }
     if (proposal.userCreatorId !== userId) {
-      throw new ProposalAccessDeniedException();
+      throw new ProposalAccessDeniedException('Proposal not found');
     }
     return proposal;
   }

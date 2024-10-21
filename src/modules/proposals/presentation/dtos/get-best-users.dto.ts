@@ -1,17 +1,15 @@
 import { IsDateString, IsOptional, IsInt, Min } from 'class-validator';
-import { Type } from 'class-transformer';
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { Type } from 'class-transformer';
 
 export class GetBestUsersDto {
   @IsDateString()
-  @Type(() => Date)
   @ApiProperty({ description: 'Start date', example: '2022-01-01' })
-  start: Date;
+  start: string;
 
   @IsDateString()
-  @Type(() => Date)
   @ApiProperty({ description: 'End date', example: '2022-12-31' })
-  end: Date;
+  end: string;
 
   @IsOptional()
   @IsInt()

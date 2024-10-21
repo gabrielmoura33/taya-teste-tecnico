@@ -43,8 +43,8 @@ describe('AdminController', () => {
     getBestUsersUseCase.execute.mockResolvedValue(data);
 
     const query = new GetBestUsersDto();
-    query.start = new Date('2022-01-01');
-    query.end = new Date('2022-12-31');
+    query.start = '2020-01-01T00:00:00.000Z';
+    query.end = '2024-12-31T00:00:00.000Z';
     query.skip = 0;
     query.take = 10;
 
@@ -52,8 +52,8 @@ describe('AdminController', () => {
 
     expect(result).toBe(data);
     expect(getBestUsersUseCase.execute).toHaveBeenCalledWith(
-      query.start,
-      query.end,
+      new Date(query.start),
+      new Date(query.end),
     );
   });
 });

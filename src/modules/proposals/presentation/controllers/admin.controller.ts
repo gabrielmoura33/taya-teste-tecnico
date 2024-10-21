@@ -52,6 +52,11 @@ export class AdminController {
     ],
   })
   async getBestUsers(@Query() query: GetBestUsersDto) {
-    return this.getBestUsersUseCase.execute(query.start, query.end);
+    const { start, end } = query;
+
+    const startDate = new Date(start);
+    const endDate = new Date(end);
+
+    return this.getBestUsersUseCase.execute(startDate, endDate);
   }
 }

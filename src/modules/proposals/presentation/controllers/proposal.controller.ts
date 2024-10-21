@@ -33,38 +33,6 @@ export class ProposalController {
     private readonly approveProposalUseCase: ApproveProposalUseCase,
   ) {}
 
-  @Get(':id')
-  @UsePipes(new ValidationPipe({ transform: true }))
-  @Documentation({
-    title: 'Get Proposal By ID',
-    description: 'Retrieve a proposal by its ID for the authenticated user.',
-    responses: [
-      {
-        status: 200,
-        description: 'Proposal retrieved successfully',
-        type: ProposalResponseDto,
-      },
-    ],
-    errors: [
-      {
-        status: 404,
-        description: 'Proposal not found or access denied',
-        type: ProposalNotFoundResponse,
-      },
-    ],
-  })
-  async getProposalById(
-    @Param() params: GetProposalByIdDto,
-    @Req() req: Request,
-  ): Promise<ProposalResponseDto> {
-    const userId = (req as any).user.id;
-    const proposal = await this.getProposalByIdForUserUseCase.execute(
-      params.id,
-      userId,
-    );
-    return new ProposalResponseDto(proposal);
-  }
-
   @Get()
   @UsePipes(new ValidationPipe({ transform: true }))
   @Documentation({
@@ -121,6 +89,38 @@ export class ProposalController {
       (proposal) => new ProposalResponseDto(proposal),
     );
     return { items, total: result.total };
+  }
+
+  @Get(':id')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  @Documentation({
+    title: 'Get Proposal By ID',
+    description: 'Retrieve a proposal by its ID for the authenticated user.',
+    responses: [
+      {
+        status: 200,
+        description: 'Proposal retrieved successfully',
+        type: ProposalResponseDto,
+      },
+    ],
+    errors: [
+      {
+        status: 404,
+        description: 'Proposal not found or access denied',
+        type: ProposalNotFoundResponse,
+      },
+    ],
+  })
+  async getProposalById(
+    @Param() params: GetProposalByIdDto,
+    @Req() req: Request,
+  ): Promise<ProposalResponseDto> {
+    const userId = (req as any).user.id;
+    const proposal = await this.getProposalByIdForUserUseCase.execute(
+      params.id,
+      userId,
+    );
+    return new ProposalResponseDto(proposal);
   }
 
   @Post(':proposal_id/approve')
